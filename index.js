@@ -1,10 +1,11 @@
 const message = document.querySelector('.message');
-const score = document.querySelector('.score');
+const scored = document.querySelector('.score');
 const btns = document.querySelectorAll('button');
 const gamePlay =  document.querySelector('.gamePlay');
+const highScored = document.querySelector('.high-score');
 
 let prevCardVal = 0;
-let scoreVal = 0;
+let score = 0;
 let deck = [];
 const ranks = [2,3,4,5,6,7,8,9,10,"J","Q","K","A"];
 const suits = ["hearts", "diams", "clubs", "spades"];
@@ -24,28 +25,35 @@ function toggleBtns() {
 function playGame(e) {
       let temp = e.target.innerText;
       let currCard = drawCard();
+      let prevScore = highScored.innerHTML;
+      let currScore = score;
       // btn.innerText == Start then start the game run the respective functions
-      console.log(temp)
       if (temp == 'START') {
             message.innerHTML = 'Higher or Lower';
             gamePlay.innerHTML = '';
+            score = 0;
             makeCard(currCard);-
             toggleBtns();
             return;
       }
-      console.log(currCard.value, prevCardVal)
+      if (currScore > prevScore) {
+            highScored.innerHTML = currScore;
+      } else {
+            highScored.innerHTML = prevScore;
+      }
+      
       if (currCard.value == prevCardVal) {
             message.innerHTML = 'Draw';
             message.style.color = '#2a9d8f';
       } else {
             if ((temp == 'HIGHER' && (currCard.value > prevCardVal)) || (temp == 'LOWER' && (currCard.value < prevCardVal))) {
-                  scoreVal++;
-                  score.innerHTML = scoreVal;
+                  score++;
+                  scored.innerHTML = score;
                   message.innerHTML = "Correct, Next?";
                   message.style.color ="#3a86ff"
             } else {
                   message.innerHTML = "Wrong Game Over";
-                  message.style.color = "#e63946"
+                  message.style.color = "#e63946";
                   toggleBtns();
             }
       }
@@ -57,7 +65,6 @@ function drawCard() {
       if (deck.length > 0) {
             let randomInd = Math.floor(Math.random() * deck.length);
             let card = deck.splice(randomInd, 1)[0];
-            console.log(card);
             return card;
       }
       else {
@@ -77,7 +84,6 @@ function makeDeck() {
                   card.value = (j + 1);
                   deck.push(card);
             }
-            console.log(deck)
       }
 }
 

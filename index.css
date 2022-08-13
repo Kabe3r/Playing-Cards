@@ -48,6 +48,10 @@ button:active {
       display: none;
 }
 
+.high-score {
+      display: inline-block;
+      color: blueviolet;
+}
 .score {
       display: inline-block;
       margin: 2rem 0;
